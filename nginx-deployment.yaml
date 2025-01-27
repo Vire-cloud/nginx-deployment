@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: ubuntu906/nginx1:latest  # Use your Docker Hub image name here
+          image: ubuntu906/nginx1:1.0  # Use your Docker Hub image name here
           ports:
             - containerPort: 80
 ---
