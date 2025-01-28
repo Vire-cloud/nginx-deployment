@@ -19,6 +19,13 @@ spec:
           image: ubuntu906/nginx1:1.0  # Use your Docker Hub image name here
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html-volume
+          configMap:
+            name: nginx-html  # Reference the ConfigMap created earlier
 ---
 apiVersion: v1
 kind: Service
