@@ -8,33 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Create ConfigMap for Nginx') {
-            steps {
-                script {
-                    // Applying the ConfigMap to Kubernetes
-                    sh '''
-                    kubectl apply -f - <<EOF
-                    apiVersion: v1
-                    kind: ConfigMap
-                    metadata:
-                      name: nginx-html
-                    data:
-                      index.html: |
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>Welcome to Nginx12!</title>
-                        </head>
-                        <body>
-                            <h1>Welcome to unprricdictable world!</h1>
-                            <p>This is served from a Kubernetes ConfigMap.</p>
-                        </body>
-                        </html>
-                    EOF
-                    '''
-                }
-            }
-        }
         stage('Clone Repository') {
             steps {
                 git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
