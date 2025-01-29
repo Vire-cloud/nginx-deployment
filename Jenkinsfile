@@ -1,36 +1,50 @@
 pipeline {
-    agent any  // Define which node to run the pipeline on, here 'any' means any available agent.
+    agent any
+
+    environment {
+        KUBECONFIG = '/var/jenkins_home/.kube/config/k3s.yaml' // Path to your kubeconfig file
+        GIT_REPO = 'https://github.com/Vire-cloud/nginx-deployment/' // Git repository URL
+        GIT_BRANCH = 'main' // Branch containing nginx-deployment.yaml
+    }
 
     stages {
-        stage('Build') {
+        stage('Clone Repository') {
             steps {
-                echo 'Building the application...'
-                // Add your build steps here, for example:
-                // sh 'make build'
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                // Add your test steps here, for example:
-                // sh 'make test'
+                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy Nginx') {
             steps {
-                echo 'Deploying the application...'
-                // Add your deploy steps here, for example:
-                // sh 'make deploy'
+                script {
+                    // Apply the Nginx deployment YAML
+                    sh "kubectl apply -f nginx-configmap.yaml --kubeconfig=${KUBECONFIG}"
+                    sh "kubectl rollout restart deployment nginx-deployment --kubeconfig=${KUBECONFIG}"
+                }
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    // Check the status of the deployment and pods
+                    sh 'kubectl get deployments'
+                    sh 'kubectl get pods'
+                    sh 'kubectl get svc'
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'This will check always run after the pipeline, regardless of success or failure'
-            // Clean-up or notifications can be added here
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Nginx deployment was successful.'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs for errors.'
         }
     }
 }
