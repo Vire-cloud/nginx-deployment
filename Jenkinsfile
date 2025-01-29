@@ -26,7 +26,7 @@ pipeline {
                             <title>Welcome to Nginx12!</title>
                         </head>
                         <body>
-                            <h1>Welcome to automate world!</h1>
+                            <h1>Welcome to unprricdictable world!</h1>
                             <p>This is served from a Kubernetes ConfigMap.</p>
                         </body>
                         </html>
