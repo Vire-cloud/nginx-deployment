@@ -29,7 +29,7 @@ pipeline {
 
     post {
         always {
-            echo 'This will always run after the pipeline, regardless of success or failure'
+            echo 'This will check always run after the pipeline, regardless of success or failure'
             // Clean-up or notifications can be added here
         }
     }
