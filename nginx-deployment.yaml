@@ -18,7 +18,7 @@ spec:
         - name: nginx
           image: ubuntu906/nginx1:1.0  # Use your Docker Hub image name here
           ports:
-            - containerPort: 80
+            - containerPort: 443
           volumeMounts:
             - name: html-volume
               mountPath: /usr/share/nginx/html
@@ -36,6 +36,6 @@ spec:
     app: nginx
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 443
+      targetPort: 443
   type: LoadBalancer
