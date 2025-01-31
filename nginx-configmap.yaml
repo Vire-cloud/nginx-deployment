@@ -10,6 +10,7 @@ data:
         <title>Welcome to Nginx12!</title>
     </head>
     <body>
+        <h1>AMNEX</h1>
         <h1>Welcome to Unprdictable world!</h1>
         <p>This is served from a Kubernetes ConfigMap hpe you understand.</p>
         <h2>this is second one</h2>
