@@ -2,11 +2,11 @@ pipeline {
   agent any
 
   environment {
-    PROJECT_ID = "my-gcp-project"
-    REGION     = "us-central1"
+    PROJECT_ID = "s-0-009988"
+    REGION     = "asia-south1"
     SERVICE    = "my-cloudrun-service"
-    REPO       = "my-repo"
-    IMAGE      = "us-central1-docker.pkg.dev/$PROJECT_ID/$REPO/myapp"
+    REPO       = "docker-images"
+    IMAGE      = "us-central1-docker.pkg.dev/$PROJECT_ID/$REPO/cloudrun"
   }
 
   stages {
@@ -28,15 +28,10 @@ pipeline {
       }
     }
 
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t $IMAGE:$BUILD_NUMBER .'
-      }
-    }
-
     stage('Push Image') {
       steps {
         sh '''
+          docker build -t $IMAGE:$BUILD_NUMBER test/Dockerfile test 
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
           docker push $IMAGE:$BUILD_NUMBER
         '''
