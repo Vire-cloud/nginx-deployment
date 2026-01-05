@@ -32,7 +32,7 @@ pipeline {
       steps {
         sh '''
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
-          docker build -t $IMAGE:$BUILD_NUMBER test/Dockerfile test/ 
+          docker build -t $IMAGE:$BUILD_NUMBER -f test/Dockerfile test/ 
           docker push $IMAGE:$BUILD_NUMBER
         '''
       }
