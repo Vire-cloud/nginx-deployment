@@ -6,7 +6,7 @@ pipeline {
     REGION     = "asia-south1"
     SERVICE    = "my-cloudrun-service"
     REPO       = "docker-images"
-    IMAGE      = "us-central1-docker.pkg.dev/$PROJECT_ID/$REPO/cloudrun"
+    IMAGE      = "asia-south1-docker.pkg.dev/$PROJECT_ID/$REPO/cloudrun"
   }
 
   stages {
