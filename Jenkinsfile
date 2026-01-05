@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        KUBECONFIG = '/var/jenkins_home/.kube/config/k3s.yaml' // Path to your kubeconfig file
+       // KUBECONFIG = '/var/jenkins_home/.kube/config/k3s.yaml' // Path to your kubeconfig file
         GIT_REPO = 'https://github.com/Vire-cloud/nginx-deployment/' // Git repository URL
         GIT_BRANCH = 'main' // Branch containing nginx-deployment.yaml
     }
@@ -18,8 +18,8 @@ pipeline {
             steps {
                 script {
                     // Apply the Nginx deployment YAML
-                    sh "kubectl apply -f nginx-configmap.yaml --kubeconfig=${KUBECONFIG}"
-                    sh "kubectl rollout restart deployment nginx-deployment --kubeconfig=${KUBECONFIG}"
+                   // sh "kubectl apply -f nginx-configmap.yaml --kubeconfig=${KUBECONFIG}"
+                   // sh "kubectl rollout restart deployment nginx-deployment --kubeconfig=${KUBECONFIG}"
                 }
             }
         }
@@ -28,9 +28,9 @@ pipeline {
             steps {
                 script {
                     // Check the status of the deployment and pods
-                    sh 'kubectl get deployments'
-                    sh 'kubectl get pods'
-                    sh 'kubectl get svc'
+                 // sh 'kubectl get deployments'
+                   // sh 'kubectl get pods'
+                   // sh 'kubectl get svc'
                 }
             }
         }
