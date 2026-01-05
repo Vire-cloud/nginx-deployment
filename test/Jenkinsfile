@@ -1,0 +1,58 @@
+pipeline {
+  agent any
+
+  environment {
+    PROJECT_ID = "my-gcp-project"
+    REGION     = "us-central1"
+    SERVICE    = "my-cloudrun-service"
+    REPO       = "my-repo"
+    IMAGE      = "us-central1-docker.pkg.dev/$PROJECT_ID/$REPO/myapp"
+  }
+
+  stages {
+
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Authenticate GCP') {
+      steps {
+        withCredentials([file(credentialsId: 'gcp-sa-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+          sh '''
+            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+            gcloud config set project $PROJECT_ID
+          '''
+        }
+      }
+    }
+
+    stage('Build Docker Image') {
+      steps {
+        sh 'docker build -t $IMAGE:$BUILD_NUMBER .'
+      }
+    }
+
+    stage('Push Image') {
+      steps {
+        sh '''
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+          docker push $IMAGE:$BUILD_NUMBER
+        '''
+      }
+    }
+
+    stage('Deploy to Cloud Run') {
+      steps {
+        sh '''
+          gcloud run deploy $SERVICE \
+            --image $IMAGE:$BUILD_NUMBER \
+            --region $REGION \
+            --platform managed \
+            --allow-unauthenticated
+        '''
+      }
+    }
+  }
+}
