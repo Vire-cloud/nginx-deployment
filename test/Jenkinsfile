@@ -31,7 +31,7 @@ pipeline {
     stage('Push Image') {
       steps {
         sh '''
-          docker build -t $IMAGE:$BUILD_NUMBER test/Dockerfile test 
+          docker build -t $IMAGE:$BUILD_NUMBER test/Dockerfile test/ 
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
           docker push $IMAGE:$BUILD_NUMBER
         '''
