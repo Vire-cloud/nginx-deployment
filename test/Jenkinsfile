@@ -41,11 +41,11 @@ pipeline {
     stage('Deploy to Cloud Run') {
       steps {
         sh '''
-          gcloud run deploy $SERVICE \
-            --image $IMAGE:$BUILD_NUMBER \
-            --region $REGION \
-            --platform managed \
-            --allow-unauthenticated
+         // gcloud run deploy $SERVICE \
+           // --image $IMAGE:$BUILD_NUMBER \
+           // --region $REGION \
+           // --platform managed \
+           // --allow-unauthenticated
         '''
       }
     }
