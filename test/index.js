@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.get('/', (req, res) => {
-  res.send('Cloud Run app is version 10 is running 🚀');
+  res.send('Cloud Run app is version 11 is running 🚀');
 });
 
 app.listen(PORT, () => {
